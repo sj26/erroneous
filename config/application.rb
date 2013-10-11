@@ -24,5 +24,10 @@ module Erroneous
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.exceptions_app = proc do |env|
+      status = env["PATH_INFO"][1..-1].to_s
+      ErrorsController.action(status).call(env)
+    end
   end
 end
